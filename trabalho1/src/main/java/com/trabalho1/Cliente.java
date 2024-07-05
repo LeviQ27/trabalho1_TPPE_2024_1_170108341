@@ -47,6 +47,7 @@ public class Cliente {
 
     public void setComprasMensais(double comprasMensais) {
         this.comprasMensais = comprasMensais;
+        atualizarTipoCliente();
     }
 
     public double getSaldoCashBack() {
@@ -57,5 +58,10 @@ public class Cliente {
         this.saldoCashBack = saldoCashBack;
     }
 
+    private void atualizarTipoCliente() {
+        if (this.comprasMensais > 100 && this.tipoCliente == TipoCliente.PADRAO) {
+            this.tipoCliente = TipoCliente.ESPECIAL;
+        }
+    }
 
 }
