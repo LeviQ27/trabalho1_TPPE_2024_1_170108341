@@ -10,59 +10,70 @@ public class Venda {
     private Cliente cliente;
     private List<Produto> produtos;
     private FormaPagamento formaPagamento;
+    private FormaPagamento formaCashback;
     private double valorTotal;
     private double desconto;
     private double frete;
     private double icms;
     private double impostoMunicipal;
     private String dataHora;
+    private double cashback_cnt;
+    double valor_cashback;
 
     public Venda(Cliente cliente, List<Produto> produtos, FormaPagamento formaPagamento, String cartao, FormaPagamento formaCashback, LocalDateTime dataHora){
         this.cliente = cliente;
         this.produtos = produtos;
         this.formaPagamento = formaPagamento;
-        this.valorTotal = calcularValorTotal(cartao, formaCashback);
+        this.formaCashback = formaCashback;
+        this.valorTotal = calcularValorTotal(cartao);
         this.desconto = calcularDesconto(cartao);
         this.frete = calcularFrete();
         this.icms = calcularICMS();
         this.impostoMunicipal = calcularImpostoMunicipal();
         this.dataHora = dataHoraFormatter(dataHora);
+        this.cashback_cnt = 0;
     }
 
     public Venda(Cliente cliente, List<Produto> produtos, FormaPagamento formaPagamento, String cartao, LocalDateTime dataHora){
         this.cliente = cliente;
         this.produtos = produtos;
         this.formaPagamento = formaPagamento;
-        this.valorTotal = calcularValorTotal(cartao, FormaPagamento.NAO_CASHBACK);
+        this.formaCashback = FormaPagamento.NAO_CASHBACK;
+        this.valorTotal = calcularValorTotal(cartao);
         this.desconto = calcularDesconto(cartao);
         this.frete = calcularFrete();
         this.icms = calcularICMS();
         this.impostoMunicipal = calcularImpostoMunicipal();
         this.dataHora = dataHoraFormatter(dataHora);
+        this.cashback_cnt = 0;
     }
 
     public Venda(Cliente cliente, List<Produto> produtos, FormaPagamento formaPagamento, FormaPagamento formaCashback, LocalDateTime dataHora){
         this.cliente = cliente;
         this.produtos = produtos;
         this.formaPagamento = formaPagamento;
-        this.valorTotal = calcularValorTotal("", formaCashback);
+        this.formaCashback = formaCashback;
+        this.valorTotal = calcularValorTotal("");
         this.desconto = calcularDesconto("");
         this.frete = calcularFrete();
         this.icms = calcularICMS();
         this.impostoMunicipal = calcularImpostoMunicipal();
         this.dataHora = dataHoraFormatter(dataHora);
+        this.cashback_cnt = 0;
     }
 
     public Venda(Cliente cliente, List<Produto> produtos, FormaPagamento formaPagamento, LocalDateTime dataHora){
         this.cliente = cliente;
         this.produtos = produtos;
         this.formaPagamento = formaPagamento;
-        this.valorTotal = calcularValorTotal("", FormaPagamento.NAO_CASHBACK);
+        this.formaCashback = FormaPagamento.NAO_CASHBACK;
+        this.valorTotal = calcularValorTotal("");
         this.desconto = calcularDesconto("");
         this.frete = calcularFrete();
         this.icms = calcularICMS();
         this.impostoMunicipal = calcularImpostoMunicipal();
         this.dataHora = dataHoraFormatter(dataHora);
+        this.cashback_cnt = 0;
     }
 
     public Cliente getCliente() {
@@ -137,21 +148,36 @@ public class Venda {
         this.formaPagamento = formaPagamento;
     }
 
-    private double calcularValorTotal(String cartao , FormaPagamento formaCashback) {
+    private double calcularValorTotal(String cartao) {
         double valorTotal_1 = valorReal() + calcularICMS() + calcularImpostoMunicipal();
+        double valorTotal_2 = 0.0;
+        double cashback_2 = this.cliente.getSaldoCashBack();
         valorTotal_1 += calcularFrete();
         valorTotal_1 = Math.round(valorTotal_1*100.0)/100.0;
+        if (valorTotal_1 < calcularDesconto(cartao)){
+            cashback_2 = (calcularDesconto(cartao) - valorTotal_1);
 
-        double cashback_2 = calcularCashback(cartao, valorTotal_1);
+            valorTotal_2 += 0.0;
+        }
+        else
+        {
+            valorTotal_2 = ((int)((valorTotal_1 - calcularDesconto(cartao))*100))/100.0;
+            if (this.cliente.getTipoCliente() == TipoCliente.PRIME && getFormaCashback() == FormaPagamento.NAO_CASHBACK) cashback_2 += calcularCashback(cartao, valorTotal_2);
+            else cashback_2 = calcularCashback(cartao, valorTotal_2);
+        }
+        
 
         this.cliente.setSaldoCashBack(cashback_2);
 
-        return ((int)((valorTotal_1 - calcularDesconto(cartao))*100))/100.0;
+        return valorTotal_2;
     }
 
     private double calcularDesconto(String cartao) {
         double desconto_1 = 0.0;
         double valorReal_2 = valorReal() + calcularICMS() + calcularImpostoMunicipal();
+        
+
+        if (getCashback_cnt() == 0) valor_cashback = this.cliente.getSaldoCashBack();
 
         if (this.cliente.getTipoCliente() == TipoCliente.ESPECIAL) {
             desconto_1 += valorReal_2 * 0.10;
@@ -166,9 +192,11 @@ public class Venda {
             }
         }
         
-        
+        double desconto_2 = this.cliente.getTipoCliente() == TipoCliente.PRIME && this.formaCashback == FormaPagamento.SIM_CASHBACK ? desconto_1 + valor_cashback : desconto_1;
 
-        return desconto_1;
+        setCashback_cnt(1);
+
+        return desconto_2;
     }
 
     private double calcularFrete() {
@@ -271,6 +299,22 @@ public class Venda {
         cashback_1 = Math.round(cashback_1*100.0)/100.0;
 
         return ((int)((cashback_1)*100))/100.0;
+    }
+
+    public FormaPagamento getFormaCashback() {
+        return formaCashback;
+    }
+
+    public void setFormaCashback(FormaPagamento formaCashback) {
+        this.formaCashback = formaCashback;
+    }
+
+    public double getCashback_cnt() {
+        return cashback_cnt;
+    }
+
+    public void setCashback_cnt(double cashback_cnt) {
+        this.cashback_cnt = cashback_cnt;
     }
 
 }
