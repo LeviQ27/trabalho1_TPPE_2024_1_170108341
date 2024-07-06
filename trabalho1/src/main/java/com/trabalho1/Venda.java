@@ -1,5 +1,7 @@
 package com.trabalho1;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -7,20 +9,24 @@ public class Venda {
 
     private Cliente cliente;
     private List<Produto> produtos;
+    private FormaPagamento formaPagamento;
     private double valorTotal;
     private double desconto;
     private double frete;
     private double icms;
     private double impostoMunicipal;
+    private String dataHora;
 
-    public Venda(Cliente cliente, List<Produto> produtos, String cartao){
+    public Venda(Cliente cliente, List<Produto> produtos, FormaPagamento formaPagamento, String cartao, LocalDateTime dataHora){
         this.cliente = cliente;
         this.produtos = produtos;
+        this.formaPagamento = formaPagamento;
         this.valorTotal = calcularValorTotal(cartao);
         this.desconto = calcularDesconto(cartao);
         this.frete = calcularFrete();
         this.icms = calcularICMS();
         this.impostoMunicipal = calcularImpostoMunicipal();
+        this.dataHora = dataHoraFormatter(dataHora);
     }
 
     public Cliente getCliente() {
@@ -79,6 +85,22 @@ public class Venda {
         this.impostoMunicipal = impostoMunicipal;
     }
 
+     public String getDataHora() {
+        return dataHora;
+    }
+
+    public void setDataHora(String dataHora) {
+        this.dataHora = dataHora;
+    }
+
+    public FormaPagamento getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+
     private double calcularValorTotal(String cartao) {
         double valorTotal_1 = valorReal() + calcularICMS() + calcularImpostoMunicipal();
         valorTotal_1 += calcularFrete();
@@ -96,7 +118,7 @@ public class Venda {
         }
 
 
-        if (verificarCartaoLoja(cartao))
+        if (verificarCartaoLoja(cartao) && this.formaPagamento == FormaPagamento.CARTAO_CREDITO)
         {
             desconto_1 += valorReal_2 * 0.10;
         }
@@ -188,5 +210,10 @@ public class Venda {
         return true;
     }
 
+    private String dataHoraFormatter(LocalDateTime dataHora) {
+        String padrao = "dd/MM/yyyy HH:mm:ss";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(padrao);
+        return dataHora.format(formatter);
+    }
 
 }
