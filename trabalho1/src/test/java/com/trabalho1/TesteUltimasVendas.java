@@ -57,6 +57,7 @@ public class TesteUltimasVendas {
     public void testeUltimoMes(){
         UltimoMes ultimoMes = new UltimoMes(cliente, vendas);
         assertEquals(valorTotalEsperado, ultimoMes.getSaldoMes(), 0.01);
+        assertEquals(valorTotalEsperado, cliente.getComprasMensais(), 0.01);
         assertEquals(cashback, cliente.getSaldoCashBack(), 0.01);
         assertEquals(tipoCliente, cliente.getTipoCliente());
     }
