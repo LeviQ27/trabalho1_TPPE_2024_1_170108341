@@ -3,7 +3,8 @@
 O aluno Levi de Oliveira Queiroz, da matrícula 170108341, criou e editou este repositório com o objetivo de realizar a criação de classes para uma empresa de comércio varejista através de técnicas de TDD. De modo que cumprisse os critérios apresentados no enunciado do trabalho. O esquema de arquivos de testes e classes criados é apresentado na figura a seguir:
 
 ![Captura de tela de 2024-07-07 20-34-29.png](https://drive.google.com/uc?export=view&id=1ZjEwTE_9ff6O9b69_AZo3DypCcN_9hRe)
-Figura 1: Captura de tela da árvore de arquivos da pasta trabalho1  Autor: Autoria Própria
+
+>Figura 1: Captura de tela da árvore de arquivos da pasta trabalho1  Autor: Autoria Própria
 
 # Enunciado Trabalho 1 de Técnicas de Programação em Plataformas Emergentes
 
