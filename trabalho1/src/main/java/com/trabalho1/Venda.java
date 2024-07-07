@@ -53,8 +53,8 @@ public class Venda {
         this.produtos = produtos;
         this.formaPagamento = formaPagamento;
         this.formaCashback = formaCashback;
-        this.valorTotal = calcularValorTotal("");
-        this.desconto = calcularDesconto("");
+        this.valorTotal = calcularValorTotal("0000 0000 0000 0000");
+        this.desconto = calcularDesconto("0000 0000 0000 0000");
         this.frete = calcularFrete();
         this.icms = calcularICMS();
         this.impostoMunicipal = calcularImpostoMunicipal();
@@ -67,8 +67,8 @@ public class Venda {
         this.produtos = produtos;
         this.formaPagamento = formaPagamento;
         this.formaCashback = FormaPagamento.NAO_CASHBACK;
-        this.valorTotal = calcularValorTotal("");
-        this.desconto = calcularDesconto("");
+        this.valorTotal = calcularValorTotal("0000 0000 0000 0000");
+        this.desconto = calcularDesconto("0000 0000 0000 0000");
         this.frete = calcularFrete();
         this.icms = calcularICMS();
         this.impostoMunicipal = calcularImpostoMunicipal();
@@ -146,6 +146,22 @@ public class Venda {
 
     public void setFormaPagamento(FormaPagamento formaPagamento) {
         this.formaPagamento = formaPagamento;
+    }
+
+    public FormaPagamento getFormaCashback() {
+        return formaCashback;
+    }
+
+    public void setFormaCashback(FormaPagamento formaCashback) {
+        this.formaCashback = formaCashback;
+    }
+
+    public double getCashback_cnt() {
+        return cashback_cnt;
+    }
+
+    public void setCashback_cnt(double cashback_cnt) {
+        this.cashback_cnt = cashback_cnt;
     }
 
     private double calcularValorTotal(String cartao) {
@@ -301,20 +317,6 @@ public class Venda {
         return ((int)((cashback_1)*100))/100.0;
     }
 
-    public FormaPagamento getFormaCashback() {
-        return formaCashback;
-    }
-
-    public void setFormaCashback(FormaPagamento formaCashback) {
-        this.formaCashback = formaCashback;
-    }
-
-    public double getCashback_cnt() {
-        return cashback_cnt;
-    }
-
-    public void setCashback_cnt(double cashback_cnt) {
-        this.cashback_cnt = cashback_cnt;
-    }
+    
 
 }
