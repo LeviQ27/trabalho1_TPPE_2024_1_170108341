@@ -168,6 +168,8 @@ public class Venda {
         double valorTotal_1 = valorReal() + calcularICMS() + calcularImpostoMunicipal();
         double valorTotal_2 = 0.0;
         double cashback_2 = this.cliente.getSaldoCashBack();
+        
+        //Trecho de código separado para extração de método (begin)
         valorTotal_1 += calcularFrete();
         valorTotal_1 = Math.round(valorTotal_1*100.0)/100.0;
         if (valorTotal_1 < calcularDesconto(cartao)){
@@ -181,6 +183,7 @@ public class Venda {
             if (this.cliente.getTipoCliente() == TipoCliente.PRIME && getFormaCashback() == FormaPagamento.NAO_CASHBACK) cashback_2 += calcularCashback(cartao, valorTotal_2);
             else cashback_2 = calcularCashback(cartao, valorTotal_2);
         }
+        // (end)
         
 
         this.cliente.setSaldoCashBack(cashback_2);
@@ -188,6 +191,7 @@ public class Venda {
         return valorTotal_2;
     }
 
+    // Método a ser subistituído por objeto-método: (begin)
     private double calcularDesconto(String cartao) {
         double desconto_1 = 0.0;
         double valorReal_2 = valorReal() + calcularICMS() + calcularImpostoMunicipal();
@@ -214,6 +218,7 @@ public class Venda {
 
         return desconto_2;
     }
+    // (end)
 
     private double calcularFrete() {
         double frete_1 = 0.0;

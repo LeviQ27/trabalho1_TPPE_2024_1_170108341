@@ -6,9 +6,11 @@ public class Cliente {
     private String nome;
     private Endereco endereco;
     private TipoCliente tipoCliente;
+    // Atributos que serão refatorados: (begin)
     private double comprasMensais;
     private double saldoCashBack;
     private double mensalidade;
+    // (end)
 
     public Cliente(String nome, TipoCliente tipoCliente, Endereco endereco){
         this.nome = nome;
@@ -69,6 +71,7 @@ public class Cliente {
         this.saldoCashBack = saldoCashBack;
     }
 
+    //método que será refatorado: (begin)
     private void atualizarTipoCliente() {
         if (this.comprasMensais > 100.00 && this.tipoCliente == TipoCliente.PADRAO) {
             this.tipoCliente = TipoCliente.ESPECIAL;
@@ -77,6 +80,7 @@ public class Cliente {
         else if (this.mensalidade >= 20.00 && this.tipoCliente != TipoCliente.PRIME) this.tipoCliente = TipoCliente.PRIME;
         else if (this.mensalidade < 20.00 && this.tipoCliente == TipoCliente.PRIME) this.tipoCliente = TipoCliente.ESPECIAL;
     }
+    // (end)
 
     
 
