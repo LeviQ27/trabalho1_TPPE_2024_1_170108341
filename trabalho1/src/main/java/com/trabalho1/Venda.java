@@ -166,30 +166,46 @@ public class Venda {
 
     private double calcularValorTotal(String cartao) {
         double valorTotal_1 = valorReal() + calcularICMS() + calcularImpostoMunicipal();
-        double valorTotal_2 = 0.0;
         double cashback_2 = this.cliente.getSaldoCashBack();
         
-        //Trecho de código separado para extração de método (begin)
-        valorTotal_1 += calcularFrete();
-        valorTotal_1 = Math.round(valorTotal_1*100.0)/100.0;
-        if (valorTotal_1 < calcularDesconto(cartao)){
-            cashback_2 = (calcularDesconto(cartao) - valorTotal_1);
-
-            valorTotal_2 += 0.0;
-        }
-        else
-        {
-            valorTotal_2 = ((int)((valorTotal_1 - calcularDesconto(cartao))*100))/100.0;
-            if (this.cliente.getTipoCliente() == TipoCliente.PRIME && getFormaCashback() == FormaPagamento.NAO_CASHBACK) cashback_2 += calcularCashback(cartao, valorTotal_2);
-            else cashback_2 = calcularCashback(cartao, valorTotal_2);
-        }
-        // (end)
+        //Trecho de código alterado para extração de método (begin)
+        /*
+         * Foram feitos dois métodos novos calculoCash que calcula o cashback do cliente 
+         * e o método CalculoCasheDesconto que calcula o valor total com os descontes e o 
+         * cashback aplicado, ao qual é retonado pelo método calcularValorTotal.
+         */
         
+        return calculoCashEDesco(valorTotal_1, cashback_2, cartao);
+        
+        // (end)
+    }
+
+    // Métodos criados para satisfazer a condição de Extrair Método (begin)
+    private double calculoCashEDesco(double valorTotal_1, double cashback_2, String cartao)
+    {
+        double valorTotal_2 = 0.0;
+        valorTotal_1 += calcularFrete();
+        valorTotal_1 = Math.round(valorTotal_1 * 100.0) / 100.0;
+        if (valorTotal_1 < calcularDesconto(cartao)) {
+            cashback_2 = (calcularDesconto(cartao) - valorTotal_1);
+        } else {
+            valorTotal_2 = ((int) ((valorTotal_1 - calcularDesconto(cartao)) * 100)) / 100.0;
+            cashback_2 = calculoCash(valorTotal_2, cashback_2, cartao);
+
+        }
 
         this.cliente.setSaldoCashBack(cashback_2);
-
         return valorTotal_2;
     }
+
+    private double calculoCash(double valor_total, double cashback_2, String cartao)
+    {
+        if (this.cliente.getTipoCliente() == TipoCliente.PRIME && getFormaCashback() == FormaPagamento.NAO_CASHBACK)
+            return cashback_2 + calcularCashback(cartao, valor_total);
+        else
+            return calcularCashback(cartao, valor_total);
+    }
+    //(end)
 
     // Método a ser subistituído por objeto-método: (begin)
     private double calcularDesconto(String cartao) {
