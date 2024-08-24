@@ -183,19 +183,17 @@ public class Venda {
     // Métodos criados para satisfazer a condição de Extrair Método (begin)
     private double calculoCashEDesco(double valorTotal_1, double cashback_2, String cartao)
     {
-        double valorTotal_2 = 0.0;
         valorTotal_1 += calcularFrete();
         valorTotal_1 = Math.round(valorTotal_1 * 100.0) / 100.0;
         if (valorTotal_1 < calcularDesconto(cartao)) {
             cashback_2 = (calcularDesconto(cartao) - valorTotal_1);
-        } else {
-            valorTotal_2 = ((int) ((valorTotal_1 - calcularDesconto(cartao)) * 100)) / 100.0;
-            cashback_2 = calculoCash(valorTotal_2, cashback_2, cartao);
-
+            this.cliente.setSaldoCashBack(cashback_2);
+            return 0.0;
+        } else { 
+            cashback_2 = calculoCash(((int) ((valorTotal_1 - calcularDesconto(cartao)) * 100)) / 100.0, cashback_2, cartao);
+            this.cliente.setSaldoCashBack(cashback_2);
+            return ((int) ((valorTotal_1 - calcularDesconto(cartao)) * 100)) / 100.0;
         }
-
-        this.cliente.setSaldoCashBack(cashback_2);
-        return valorTotal_2;
     }
 
     private double calculoCash(double valor_total, double cashback_2, String cartao)
