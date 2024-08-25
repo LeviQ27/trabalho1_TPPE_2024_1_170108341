@@ -6,19 +6,17 @@ public class Cliente {
     private String nome;
     private Endereco endereco;
     private TipoCliente tipoCliente;
-    // Atributos que serão refatorados: (begin)
-    private double comprasMensais;
-    private double saldoCashBack;
-    private double mensalidade;
+    // Atributo que foi adicionado após refatoração: (begin)
+    private CalculoCliente calculoCliente;
     // (end)
+
+    
 
     public Cliente(String nome, TipoCliente tipoCliente, Endereco endereco){
         this.nome = nome;
         this.endereco = endereco;
         this.tipoCliente = tipoCliente;
-        this.comprasMensais = 0.0;
-        this.saldoCashBack = 0.0;
-        this.mensalidade = 0.0;
+        this.calculoCliente = new CalculoCliente(0.0, 0.0, 0.0);
     }
 
     public String getNome() {
@@ -45,40 +43,45 @@ public class Cliente {
         this.tipoCliente = tipoCliente;
     }
 
+    // Alterações nos getters and setters para adequar a inserção de uma nova classe na classe Cliente. (begin)
     public double getComprasMensais() {
-        return comprasMensais;
+        return this.calculoCliente.getComprasMensais();
     }
 
     public void setComprasMensais(double comprasMensais) {
-        this.comprasMensais = comprasMensais;
+        this.calculoCliente.setComprasMensais(comprasMensais);
         atualizarTipoCliente();
     }
 
     public double getSaldoCashBack() {
-        return saldoCashBack;
-    }
-
-    public double getMensalidade() {
-        return mensalidade;
-    }
-
-    public void setMensalidade(double mensalidade) {
-        this.mensalidade = mensalidade;
-        atualizarTipoCliente();
+        return this.calculoCliente.getSaldoCashBack();
     }
 
     public void setSaldoCashBack(double saldoCashBack) {
-        this.saldoCashBack = saldoCashBack;
+        this.calculoCliente.setSaldoCashBack(saldoCashBack);
     }
 
-    //método que será refatorado: (begin)
+    public double getMensalidade() {
+        return this.calculoCliente.getMensalidade();
+    }
+
+    public void setMensalidade(double mensalidade) {
+        this.calculoCliente.setMensalidade(mensalidade);
+        atualizarTipoCliente();
+    }
+
+    public CalculoCliente getCalculoCliente() {
+        return calculoCliente;
+    }
+
+    public void setCalculoCliente(CalculoCliente calculoCliente) {
+        this.calculoCliente = calculoCliente;
+    }
+    //(end)
+
+    //método que foi refatorado: (begin)
     private void atualizarTipoCliente() {
-        if (this.comprasMensais > 100.00 && this.tipoCliente == TipoCliente.PADRAO) {
-            this.tipoCliente = TipoCliente.ESPECIAL;
-        }
-        else if (this.comprasMensais < 100.00 && this.tipoCliente == TipoCliente.ESPECIAL && this.tipoCliente != TipoCliente.PRIME && this.mensalidade < 20.00) this.tipoCliente = TipoCliente.PADRAO;
-        else if (this.mensalidade >= 20.00 && this.tipoCliente != TipoCliente.PRIME) this.tipoCliente = TipoCliente.PRIME;
-        else if (this.mensalidade < 20.00 && this.tipoCliente == TipoCliente.PRIME) this.tipoCliente = TipoCliente.ESPECIAL;
+        setTipoCliente(this.calculoCliente.atualizar(getTipoCliente()));
     }
     // (end)
 
