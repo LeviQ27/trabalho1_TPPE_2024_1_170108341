@@ -205,32 +205,17 @@ public class Venda {
     }
     //(end)
 
-    // Método a ser subistituído por objeto-método: (begin)
+    // Método subistituído por objeto-método: (begin)
     private double calcularDesconto(String cartao) {
-        double desconto_1 = 0.0;
-        double valorReal_2 = valorReal() + calcularICMS() + calcularImpostoMunicipal();
-        
 
+        //continuei com esses comando pois a refatoração seria mais trabalhosa do que manter-lás.
         if (getCashback_cnt() == 0) valor_cashback = this.cliente.getSaldoCashBack();
-
-        if (this.cliente.getTipoCliente() == TipoCliente.ESPECIAL) {
-            desconto_1 += valorReal_2 * 0.10;
-        }
-
-
-        if (this.formaPagamento == FormaPagamento.CARTAO_CREDITO)
-        {
-            if (verificarCartaoLoja(cartao))
-            {
-                desconto_1 += valorReal_2 * 0.10;
-            }
-        }
         
-        double desconto_2 = this.cliente.getTipoCliente() == TipoCliente.PRIME && this.formaCashback == FormaPagamento.SIM_CASHBACK ? desconto_1 + valor_cashback : desconto_1;
-
         setCashback_cnt(1);
+        //(end)
 
-        return desconto_2;
+        //Adicionei o objeto-método que retorna o valor total a ser descontado do valor total da venda.
+        return new CalculoDescontoVenda(getCliente(), valorReal() + calcularICMS() + calcularImpostoMunicipal(), valor_cashback, formaPagamento, formaCashback, verificarCartaoLoja(cartao)).calculoDesconto();
     }
     // (end)
 
