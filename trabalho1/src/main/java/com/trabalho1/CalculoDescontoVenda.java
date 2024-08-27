@@ -1,7 +1,10 @@
 package com.trabalho1;
 
 /*
- * Classe criada a partir da operação de refatoração de substituição do método por um objeto-método, em que recebe a informações de cliente, valor de cashback, valor da venda com icms + imposto municipal, as formas de pagamentos e cashback e um boleano que verificou o cartão, e retorna para classe Venda o desconto total.
+ * Classe criada a partir da operação de refatoração de substituição do método por um 
+ * objeto-método, em que recebe a informações de cliente, valor de cashback, valor da 
+ * venda com icms + imposto municipal, as formas de pagamentos e cashback e um boleano 
+ * que verificou o cartão, e retorna para classe Venda o desconto total.
  */
 public class CalculoDescontoVenda {
     
