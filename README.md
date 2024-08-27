@@ -173,8 +173,6 @@ um desconto de 50% na nota.
 
 Assim, o trabalho 3 de TPPE foi realizar um estudo de boas práticas de projeto de software em relação ao processo de refatoração descrita por Martin Fowler. Foi pedido a entrega de um documento PDF que é apresentado a seguir e encontrado támbem em [TP3 - Avaliação e Análise do Projeto Realizado para a Matéria de Técnicas de Programação em Plataformas Emergentes](/trabalho1/assets/tp3_170108341_Levi.pdf):
 
-<iframe src="https://drive.google.com/file/d/12J2SRQhM5jdryIQ60_0zuVq-flViFuKI/preview" width="640" height="480" allow="autoplay"></iframe>
-
 # Enunciado do Trabalho 3 de Técnicas de Programação em Plataformas Emergentes
 
 Projeto de software é, muitas vezes, entendido como uma atividade dentro do
