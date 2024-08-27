@@ -10,7 +10,9 @@
 # Sumário
 
 [1 - Trabalho 1](#trabalho-1-de-tecnicas-de-programacao-em-plataformas-emergentes)
+
 [2 - Trabalho 2](#trabalho-2-refatoracao)
+
 [3 - Trabalho 3](#trabalho-3-bom-projeto-de-software)
 
 # Trabalho 1 de Técnicas de Programação em Plataformas Emergentes
